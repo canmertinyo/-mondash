@@ -7,8 +7,4 @@ const mondash = new Mondash({
 mondash.insertMany([{ name: 'can' }, { name: 'can cevik' }, { name: 'canmertinyo' }])
 
 mondash.createPath()
-
-// console.log(mondash.findAll({}))
-console.log(mondash.findOne({ name: 'can' }))
-
-console.log(mondash.meld())
+console.log(mondash.findAll({}))

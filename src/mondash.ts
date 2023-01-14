@@ -15,12 +15,11 @@ export class Mondash {
   }
 
   public createPath(): void {
-    if (fileSystem.existsSync(this.options.path)) {
-      fileSystem.writeFileSync(this.options.path, JSON.stringify(this.options.store))
-    } else {
+    if (fileSystem.existsSync(this.options.path) == false) {
       console.log('i cant find any files on your path. But i created new one!')
       fileSystem.writeFileSync(this.options.path, JSON.stringify(this.options.store))
     }
+    fileSystem.writeFileSync(this.options.path, JSON.stringify(this.options.store))
   }
 
   public createObject(item: object): void {
@@ -51,7 +50,7 @@ export class Mondash {
   public insertOne(item: object): void {
     if (this.options.store) {
       //eğer undefined değilse diye böyle bir kontrol yaptım.
-      this.options.store.push(item)
+      this.createObject(item)
     }
   }
 
