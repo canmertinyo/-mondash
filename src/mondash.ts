@@ -36,14 +36,17 @@ export class Mondash {
     return (this.options.store = _.shuffle(array))
   }
 
-  public shuffle(): void {
-    this.options.store = _.shuffle(this.options.store)
+  public meld(): unknown {
+    return (this.options.store = _.shuffle(this.options.store))
   }
 
-  public find(find: object): unknown {
+  public findAll(find?: object): unknown {
     return _.filter(this.options.store, find)
   }
 
+  public findOne(find: object): unknown {
+    return _.find(this.options.store, find)
+  }
   //mongoose metodları
   public insertOne(item: object): void {
     if (this.options.store) {
