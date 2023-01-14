@@ -14,7 +14,7 @@ export class Mondash {
     if (!options.path) throw new PathDoesntExistException()
   }
 
-  public createPath(): void {
+  public syncAndUpdateFiles(): void {
     if (fileSystem.existsSync(this.options.path) == false) {
       console.log('i cant find any files on your path. But i created new one!')
       fileSystem.writeFileSync(this.options.path, JSON.stringify(this.options.store))
@@ -32,7 +32,7 @@ export class Mondash {
   }
 
   public write(array: object[]): object[] {
-    return (this.options.store = _.shuffle(array))
+    return (this.options.store = _.cloneDeep(array))
   }
 
   public meld(): unknown {

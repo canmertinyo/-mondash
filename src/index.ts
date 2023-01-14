@@ -6,5 +6,5 @@ const mondash = new Mondash({
 
 mondash.insertMany([{ name: 'can' }, { name: 'can cevik' }, { name: 'canmertinyo' }])
 
-mondash.createPath()
-console.log(mondash.findAll({}))
+mondash.syncAndUpdateFiles()
+// console.log(mondash.findAll({}))
