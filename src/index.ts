@@ -4,10 +4,8 @@ const mondash = new Mondash({
   path: './database1.json'
 })
 
-mondash.insertMany([
-  { id: '232323', name: 'can' },
-  { id: '2308923', name: 'mert' },
-  { id: '2308923', name: 'mert' }
-])
+mondash.insertMany([{ name: 'can' }, { name: 'can cevik' }, { name: 'canmertinyo' }])
 
 mondash.createPath()
+
+console.log(mondash.find({ name: 'can' }))

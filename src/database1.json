@@ -1,1 +1,5 @@
-[{"objectId":"4d1ff29f-7411-460c-972f-da59f0b8102a","item":{"id":"232323","name":"can"}},{"objectId":"dbd9a62a-7a17-4317-ab25-cd2f5df79e27","item":{"id":"2308923","name":"mert"}},{"objectId":"ad7076c9-f640-40f8-b26d-20bcf9f6b152","item":{"id":"2308923","name":"mert"}}]
+[
+  { "uniqueId": "37cc7185-0023-438d-8b94-17dc526aa3e9", "item": { "name": "can" } },
+  { "uniqueId": "c8cb0baf-a9de-46da-88d5-e750b5ef3f60", "item": { "name": "can cevik" } },
+  { "uniqueId": "7ec2fa66-72ba-4f86-a77a-096a3d31674b", "item": { "name": "canmertinyo" } }
+]

@@ -11,21 +11,21 @@ export class Mondash {
     //create an empty array
     this.options.store = []
 
-    if (!options.path || typeof options.path !== 'string') throw new PathDoesntExistException()
+    if (!options.path) throw new PathDoesntExistException()
   }
 
   public createPath(): void {
     if (fileSystem.existsSync(this.options.path)) {
       fileSystem.writeFileSync(this.options.path, JSON.stringify(this.options.store))
     } else {
-      console.log('i cant find any files in your path. But i created new one!')
+      console.log('i cant find any files on your path. But i created new one!')
       fileSystem.writeFileSync(this.options.path, JSON.stringify(this.options.store))
     }
   }
 
   public createObject(item: object): void {
     item = {
-      objectId: uuidV4Generator(),
+      uniqueId: uuidV4Generator(),
       item
     }
 
@@ -40,6 +40,10 @@ export class Mondash {
     this.options.store = _.shuffle(this.options.store)
   }
 
+  public find(find: object): unknown {
+    return _.filter(this.options.store, find)
+  }
+
   //mongoose metodları
   public insertOne(item: object): void {
     if (this.options.store) {
@@ -51,7 +55,7 @@ export class Mondash {
   public insertMany(item: object[]): void {
     for (const insert of item) {
       this.createObject(insert)
-      console.log(insert) //to log myself
     }
+    console.log('items added!')
   }
 }
