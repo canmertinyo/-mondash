@@ -1,4 +1,4 @@
-export interface MondashInterface {
+export interface IMondash {
   path: string
   store?: unknown[]
 }

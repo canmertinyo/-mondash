@@ -2,13 +2,11 @@ import _ from 'lodash'
 
 import fileSystem from 'fs'
 
-import { uuidV4Generator } from './services/uuidv4-generator'
 import { PathDoesntExistException } from './exceptions/no-path-error'
-import { MondashInterface } from './interfaces/mondash-interface'
+import { IMondash } from './interfaces/mondash-options'
 
 export class Mondash {
-  constructor(public options: MondashInterface) {
-    //create an empty array
+  constructor(public options: IMondash) {
     this.options.store = []
 
     if (!options.path) throw new PathDoesntExistException()
@@ -23,10 +21,7 @@ export class Mondash {
   }
 
   public createObject(item: object): void {
-    item = {
-      uniqueId: uuidV4Generator(),
-      item
-    }
+    item = { item }
 
     this.options.store?.push(item)
   }
@@ -46,10 +41,9 @@ export class Mondash {
   public findOne(find: object): unknown {
     return _.find(this.options.store, find)
   }
-  //mongoose metodları
+
   public insertOne(item: object): void {
     if (this.options.store) {
-      //eğer undefined değilse diye böyle bir kontrol yaptım.
       this.createObject(item)
     }
   }
