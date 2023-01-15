@@ -84,3 +84,12 @@ const differentArray = [{ name: 'can' }, { name: 'furkan' }]
 
 mondash.writeDataFromDifferentFile(differentArray)
 ```
+
+# Contributing
+
+1. Fork this repository.
+2. Create a new branch with feature name.
+3. Create your feature.
+4. Commit and set commit message with feature name.
+5. Push your code to your fork repository.
+6. Create pull request.
