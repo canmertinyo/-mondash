@@ -4,54 +4,55 @@ import fileSystem from 'fs'
 
 import { PathDoesntExistException } from './exceptions/no-path-error'
 import { MondashOptions } from './interfaces/mondash-options'
+import { CreateException } from './exceptions/create-exception'
 
 export class Mondash {
   constructor(public options: MondashOptions) {
-    this.options.store = []
+    this.options.array = []
 
     if (!options.path) throw new PathDoesntExistException()
   }
 
   public syncAndUpdateFiles(): void {
-    if (fileSystem.existsSync(this.options.path) == false) {
-      console.log('i cant find any files on your path. But i created new one!')
-      fileSystem.writeFileSync(this.options.path, JSON.stringify(this.options.store))
-    }
-    fileSystem.writeFileSync(this.options.path, JSON.stringify(this.options.store))
+    fileSystem.writeFileSync(this.options.path, JSON.stringify(this.options.array))
   }
 
-  public createObject(item: object): void {
-    item = { item }
-
-    this.options.store?.push(item)
+  public create(item: object): void {
+    try {
+      item = { item }
+      this.options.array?.push(item)
+      this.syncAndUpdateFiles()
+    } catch (error) {
+      throw new CreateException()
+    }
   }
 
   public write(array: object[]): object[] {
-    return (this.options.store = _.cloneDeep(array))
+    this.syncAndUpdateFiles()
+    return (this.options.array = _.cloneDeep(array))
   }
 
   public meld(): unknown {
-    return (this.options.store = _.shuffle(this.options.store))
+    return (this.options.array = _.shuffle(this.options.array))
   }
 
   public findAll(find?: object): unknown {
-    return _.filter(this.options.store, find)
+    return _.filter(this.options.array, find)
   }
 
   public findOne(find: object): unknown {
-    return _.find(this.options.store, find)
+    return _.find(this.options.array, find)
   }
 
   public insertOne(item: object): void {
-    if (this.options.store) {
-      this.createObject(item)
+    if (this.options.array) {
+      this.create(item)
     }
   }
 
   public insertMany(item: object[]): void {
     for (const insert of item) {
-      this.createObject(insert)
+      this.create(insert)
     }
-    console.log('items added!')
   }
 }

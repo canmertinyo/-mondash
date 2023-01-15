@@ -1,4 +1,4 @@
 export interface MondashOptions {
   path: string
-  store?: unknown[]
+  array?: unknown[]
 }
