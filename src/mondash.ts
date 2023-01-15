@@ -40,7 +40,6 @@ export class Mondash {
   }
 
   public findOne(item: object): unknown {
-    // return _.find(this.options.array, item)
     if (Object.keys(item).length == 0) throw new EmptyFieldException()
     return _.filter(this.options.array, { item })
   }

@@ -127,5 +127,5 @@ dist
 .pnp.*
 
 .database.json
-./src/database.json
+/src/.database.json
 /src/integration
