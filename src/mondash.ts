@@ -2,12 +2,11 @@ import _ from 'lodash'
 
 import fileSystem from 'fs'
 
-import { uuidV4Generator } from './services/uuidv4-generator'
 import { PathDoesntExistException } from './exceptions/no-path-error'
-import { MondashInterface } from './interfaces/mondash-interface'
+import { IMondash } from './interfaces/mondash-options'
 
 export class Mondash {
-  constructor(public options: MondashInterface) {
+  constructor(public options: IMondash) {
     //create an empty array
     this.options.store = []
 
@@ -23,11 +22,7 @@ export class Mondash {
   }
 
   public createObject(item: object): void {
-    item = {
-      uniqueId: uuidV4Generator(),
-      item
-    }
-
+    item = { item }
     this.options.store?.push(item)
   }
 
