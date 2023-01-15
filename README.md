@@ -58,3 +58,29 @@ Returns one specific data from the database.
 ```ts
 mondash.findOne({ name: 'can' })
 ```
+
+### insertOne()
+
+Creates single data to database.
+
+```ts
+mondash.insertOne({ name: 'lorenzo lucca' })
+```
+
+### insertMany()
+
+Creates plural data to database.
+
+```ts
+mondash.insertMany([{ name: 'can' }, { name: 'pele' }])
+```
+
+### writeDataFromDifferentFile()
+
+Different array's data transfering to our database.
+
+```ts
+const differentArray = [{ name: 'can' }, { name: 'furkan' }]
+
+mondash.writeDataFromDifferentFile(differentArray)
+```
