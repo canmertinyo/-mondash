@@ -15,3 +15,22 @@
       - [insertOne()](#insertOne)
       - [insertMany()](#insertMany)
       - [writeDataFromDifferentFile()](#writeDataFromDifferentFile)
+
+### Methods
+
+### syncAndUpdateFiles()
+
+This method creates a new json file. With the filesystem library. 
+
+```ts
+mondash.syncAndUpdateFiles()
+```
+
+### create()
+
+This method creates a new elements. 
+Example : 
+
+```ts
+mondash.create({ exampleName: 'utah' })
+```
