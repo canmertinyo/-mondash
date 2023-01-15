@@ -128,3 +128,4 @@ dist
 
 .database.json
 ./src/database.json
+.integration
