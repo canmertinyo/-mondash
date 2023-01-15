@@ -3,10 +3,10 @@ import _ from 'lodash'
 import fileSystem from 'fs'
 
 import { PathDoesntExistException } from './exceptions/no-path-error'
-import { IMondash } from './interfaces/mondash-options'
+import { MondashOptions } from './interfaces/mondash-options'
 
 export class Mondash {
-  constructor(public options: IMondash) {
+  constructor(public options: MondashOptions) {
     this.options.store = []
 
     if (!options.path) throw new PathDoesntExistException()
