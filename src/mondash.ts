@@ -1,5 +1,6 @@
 import _ from 'lodash'
 
+import path from 'path'
 import fileSystem from 'fs'
 
 import { PathDoesntExistException } from './exceptions/no-path-error'
@@ -12,7 +13,7 @@ export class Mondash {
   constructor(public options: MondashOptions) {
     this.options.array = []
 
-    if (this.options.path.includes('.json') == false) throw new WrongFileNameException()
+    if (path.extname(this.options.path) != '.json') throw new WrongFileNameException()
 
     if (!options.path) throw new PathDoesntExistException()
   }
@@ -24,22 +25,22 @@ export class Mondash {
   public create(item: object): void {
     try {
       item = { item }
-      this.options.array?.push(item)
+      this.options.array.push(item)
       this.syncAndUpdateFiles()
     } catch (error) {
       throw new CreateException()
     }
   }
 
-  public mixList(): unknown {
+  public mixList(): object[] {
     return (this.options.array = _.shuffle(this.options.array))
   }
 
-  public findAll(find: object): unknown {
+  public findAll(find: object): object {
     return _.filter(this.options.array, find)
   }
 
-  public findOne(item: object): unknown {
+  public findOne(item: object): object {
     if (Object.keys(item).length == 0) throw new EmptyFieldException()
     return _.filter(this.options.array, { item })
   }
@@ -56,7 +57,7 @@ export class Mondash {
     }
   }
 
-  public writeDataFromDifferentFile(array: unknown[] | undefined): void {
+  public writeDataFromDifferentFile(array: object[]): void {
     //check if is undefined or not.
     if (array) {
       this.create(array)
