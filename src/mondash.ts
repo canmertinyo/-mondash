@@ -6,6 +6,7 @@ import { PathDoesntExistException } from './exceptions/no-path-error'
 import { MondashOptions } from './interfaces/mondash-options'
 import { CreateException } from './exceptions/create-exception'
 import { WrongFileNameException } from './exceptions/wrong-file-name-exception'
+import { EmptyFieldException } from './exceptions'
 
 export class Mondash {
   constructor(public options: MondashOptions) {
@@ -38,8 +39,10 @@ export class Mondash {
     return _.filter(this.options.array, find)
   }
 
-  public findOne(find: object): unknown {
-    return _.find(this.options.array, find)
+  public findOne(item: object): unknown {
+    // return _.find(this.options.array, item)
+    if (Object.keys(item).length == 0) throw new EmptyFieldException()
+    return _.filter(this.options.array, { item })
   }
 
   public insertOne(item: object): void {
