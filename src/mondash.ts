@@ -3,11 +3,13 @@ import _ from 'lodash'
 import path from 'path'
 import fileSystem from 'fs'
 
-import { PathDoesntExistException } from './exceptions/no-path-error'
 import { MondashOptions } from './interfaces/mondash-options'
-import { CreateException } from './exceptions/create-exception'
-import { WrongFileNameException } from './exceptions/wrong-file-name-exception'
-import { EmptyFieldException } from './exceptions'
+import {
+  EmptyCreateFieldException,
+  EmptyFieldException,
+  PathDoesntExistException,
+  WrongFileNameException
+} from './exceptions/index'
 
 export class Mondash {
   constructor(public options: MondashOptions) {
@@ -28,7 +30,7 @@ export class Mondash {
       this.options.array.push(item)
       this.syncAndUpdateFiles()
     } catch (error) {
-      throw new CreateException()
+      throw new EmptyCreateFieldException()
     }
   }
 
@@ -46,9 +48,8 @@ export class Mondash {
   }
 
   public insertOne(item: object): void {
-    if (this.options.array) {
-      this.create(item)
-    }
+    if (!this.options.array) throw new EmptyFieldException()
+    this.create(item)
   }
 
   public insertMany(item: object[]): void {
@@ -58,9 +59,9 @@ export class Mondash {
   }
 
   public writeDataFromDifferentFile(array: object[]): void {
-    //check if is undefined or not.
-    if (array) {
-      this.create(array)
+    if (!array) throw new EmptyFieldException()
+    for (const item of array) {
+      this.create(item)
     }
   }
 }

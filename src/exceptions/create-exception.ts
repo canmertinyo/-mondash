@@ -1,6 +1,6 @@
 import { BaseException } from './base-exception'
 
-export class CreateException extends BaseException {
+export class EmptyCreateFieldException extends BaseException {
   constructor() {
     super('Something wrong with your object!')
   }
