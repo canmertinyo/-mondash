@@ -34,3 +34,27 @@ Example :
 ```ts
 mondash.create({ exampleName: 'utah' })
 ```
+### mixList()
+
+This method mixing from the current array.
+Example : 
+
+```ts
+mondash.mixList()
+```
+
+### findAll()
+
+Returns all the information from the database.
+
+```ts
+mondash.findAll({})
+```
+
+### findOne()
+
+Returns one specific data from the database.
+
+```ts
+mondash.findOne({ name: 'can' })
+```
