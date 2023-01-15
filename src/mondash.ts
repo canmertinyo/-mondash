@@ -55,4 +55,11 @@ export class Mondash {
       this.create(insert)
     }
   }
+
+  public writeDataFromDifferentFile(array: unknown[] | undefined): void {
+    //check if is undefined or not.
+    if (array) {
+      this.create(array)
+    }
+  }
 }
