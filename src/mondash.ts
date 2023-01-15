@@ -5,10 +5,13 @@ import fileSystem from 'fs'
 import { PathDoesntExistException } from './exceptions/no-path-error'
 import { MondashOptions } from './interfaces/mondash-options'
 import { CreateException } from './exceptions/create-exception'
+import { WrongFileNameException } from './exceptions/wrong-file-name-exception'
 
 export class Mondash {
   constructor(public options: MondashOptions) {
     this.options.array = []
+
+    if (this.options.path.includes('.json') == false) throw new WrongFileNameException()
 
     if (!options.path) throw new PathDoesntExistException()
   }
@@ -27,16 +30,11 @@ export class Mondash {
     }
   }
 
-  public write(array: object[]): object[] {
-    this.syncAndUpdateFiles()
-    return (this.options.array = _.cloneDeep(array))
-  }
-
-  public meld(): unknown {
+  public mixList(): unknown {
     return (this.options.array = _.shuffle(this.options.array))
   }
 
-  public findAll(find?: object): unknown {
+  public findAll(find: object): unknown {
     return _.filter(this.options.array, find)
   }
 
