@@ -44,9 +44,9 @@ export class Mondash {
     return _.filter(this.options.array, find)
   }
 
-  public findOne(item: object): object {
-    if (Object.keys(item).length == 0) throw new EmptyFieldException()
-    return _.filter(this.options.array, { item })
+  public findOne(item: object): unknown {
+    if (Object.keys(item).length === 0) throw new EmptyFieldException()
+    return _.find(this.options.array, { item })
   }
 
   public insertOne(item: object): void {
