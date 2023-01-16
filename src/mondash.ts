@@ -16,7 +16,7 @@ export class Mondash {
   constructor(public options: MondashOptions) {
     this.options.array = []
 
-    if (path.extname(this.options.path) != '.json') throw new WrongFileNameException()
+    if (path.extname(this.options.path) !== '.json') throw new WrongFileNameException()
 
     if (!options.path) throw new PathDoesntExistException()
   }
@@ -30,6 +30,7 @@ export class Mondash {
   }
 
   public create(object: object): void {
+    if (!object) throw new EmptyCreateFieldException()
     object = { id: uuid(), object }
     this.options.array.push(object)
     this.syncAndUpdateFiles()
