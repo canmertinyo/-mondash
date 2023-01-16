@@ -80,7 +80,7 @@ mondash.insertMany([{ name: 'can' }, { name: 'pele' }])
 Different array's data transfering to our database.
 
 ```ts
-const differentArray = [{ name: 'can' }, { name: 'furkan' }]
+const differentArray = [{ name: 'can' }, { name: 'can cevik' }]
 
 mondash.writeDataFromDifferentFile(differentArray)
 ```
