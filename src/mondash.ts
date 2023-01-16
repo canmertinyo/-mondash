@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { v4 as uuid } from 'uuid'
 
 import path from 'path'
 import fileSystem from 'fs'
@@ -21,17 +22,17 @@ export class Mondash {
   }
 
   public syncAndUpdateFiles(): void {
-    fileSystem.writeFileSync(this.options.path, JSON.stringify(this.options.array))
+    try {
+      fileSystem.writeFileSync(this.options.path, JSON.stringify(this.options.array))
+    } catch (error) {
+      error
+    }
   }
 
-  public create(item: object): void {
-    try {
-      item = { item }
-      this.options.array.push(item)
-      this.syncAndUpdateFiles()
-    } catch (error) {
-      throw new EmptyCreateFieldException()
-    }
+  public create(object: object): void {
+    object = { id: uuid(), object }
+    this.options.array.push(object)
+    this.syncAndUpdateFiles()
   }
 
   public mixList(): object[] {
