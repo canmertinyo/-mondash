@@ -4,13 +4,13 @@ import { v4 as uuid } from 'uuid'
 import path from 'path'
 import fileSystem from 'fs'
 
-import { MondashOptions } from './interfaces/mondash-options'
+import { MondashOptions } from './interfaces'
 import {
   EmptyCreateFieldException,
   EmptyFieldException,
   PathDoesntExistException,
   WrongFileNameException
-} from './exceptions/index'
+} from './exceptions'
 
 export class Mondash {
   constructor(public options: MondashOptions) {
