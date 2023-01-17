@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import _, { find } from 'lodash'
 import { v4 as uuid } from 'uuid'
 
 import path from 'path'
@@ -31,7 +31,7 @@ export class Mondash {
 
   public create(object: object): void {
     if (!object) throw new EmptyCreateFieldException()
-    object = { id: uuid(), object }
+
     this.options.array.push(object)
     this.syncAndUpdateFiles()
   }
@@ -44,9 +44,9 @@ export class Mondash {
     return _.filter(this.options.array, find)
   }
 
-  public findOne(item: object): unknown {
+  public findOne(item: object): object | undefined {
     if (Object.keys(item).length === 0) throw new EmptyFieldException()
-    return _.find(this.options.array, { item })
+    return _.find(this.options.array, item)
   }
 
   public insertOne(item: object): void {
@@ -65,5 +65,9 @@ export class Mondash {
     for (const item of array) {
       this.create(item)
     }
+  }
+
+  public findOneAndDelete(item: object): unknown {
+    return _.remove(this.options.array, item)
   }
 }
