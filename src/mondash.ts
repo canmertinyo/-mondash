@@ -41,9 +41,9 @@ export class Mondash {
     return _.filter(this.array, find)
   }
 
-  public findOne(item: object): unknown {
+  public findOne(item: object): object | undefined {
     if (Object.keys(item).length === 0) throw new EmptyFieldException()
-    return _.find(this.array, { item })
+    return _.find(this.array, item)
   }
 
   public insertOne(item: object): void {
@@ -60,5 +60,9 @@ export class Mondash {
     for (const item of array) {
       this.create(item)
     }
+  }
+
+  public findOneAndDelete(item: object): unknown {
+    return _.remove(this.array, item)
   }
 }
