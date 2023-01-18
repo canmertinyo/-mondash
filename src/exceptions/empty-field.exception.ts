@@ -1,4 +1,4 @@
-import { BaseException } from './base-exception'
+import { BaseException } from './base.exception'
 
 export class EmptyFieldException extends BaseException {
   constructor() {

@@ -1,1 +1,1 @@
-export * from './mondash-options'
+export * from './mondash-options.interface'

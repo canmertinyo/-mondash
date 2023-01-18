@@ -5,52 +5,48 @@ import path from 'path'
 import fileSystem from 'fs'
 
 import { MondashOptions } from './interfaces'
-import {
-  EmptyCreateFieldException,
-  EmptyFieldException,
-  PathDoesntExistException,
-  WrongFileNameException
-} from './exceptions'
+import { EmptyFieldException, WrongFileExtensionException } from './exceptions'
 
 export class Mondash {
-  constructor(public options: MondashOptions) {
-    this.options.array = []
+  private array: object[] = []
 
-    if (path.extname(this.options.path) !== '.json') throw new WrongFileNameException()
+  constructor(private options: MondashOptions) {
+    const fileExtension = path.extname(this.options.path)
 
-    if (!options.path) throw new PathDoesntExistException()
+    if (fileExtension !== '.json') {
+      throw new WrongFileExtensionException()
+    }
   }
 
   public syncAndUpdateFiles(): void {
     try {
-      fileSystem.writeFileSync(this.options.path, JSON.stringify(this.options.array))
+      fileSystem.writeFileSync(this.options.path, JSON.stringify(this.array))
     } catch (error) {
       error
     }
   }
 
   public create(object: object): void {
-    if (!object) throw new EmptyCreateFieldException()
     object = { id: uuid(), object }
-    this.options.array.push(object)
+    this.array.push(object)
     this.syncAndUpdateFiles()
   }
 
   public mixList(): object[] {
-    return (this.options.array = _.shuffle(this.options.array))
+    this.array = _.shuffle(this.array)
+    return this.array
   }
 
   public findAll(find: object): object {
-    return _.filter(this.options.array, find)
+    return _.filter(this.array, find)
   }
 
   public findOne(item: object): unknown {
     if (Object.keys(item).length === 0) throw new EmptyFieldException()
-    return _.find(this.options.array, { item })
+    return _.find(this.array, { item })
   }
 
   public insertOne(item: object): void {
-    if (!this.options.array) throw new EmptyFieldException()
     this.create(item)
   }
 
@@ -61,7 +57,6 @@ export class Mondash {
   }
 
   public writeDataFromDifferentFile(array: object[]): void {
-    if (!array) throw new EmptyFieldException()
     for (const item of array) {
       this.create(item)
     }
