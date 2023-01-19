@@ -3,13 +3,13 @@ import { v4 as uuid } from 'uuid'
 
 import fileSystem from 'fs'
 
-import { MondashOptions } from './interfaces'
+import { MondashOptions, Type } from './interfaces'
 import { EmptyFieldException } from './exceptions'
 
-export class Mondash {
+export class Mondash<T> {
   private array: object[] = []
 
-  constructor(private options: MondashOptions) {}
+  constructor(public schema: Type<T>, private options: MondashOptions) {}
 
   public syncAndUpdateFiles(): void {
     try {
