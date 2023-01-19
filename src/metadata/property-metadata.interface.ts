@@ -1,7 +1,7 @@
 import { PropertyOptions } from '../interfaces'
 
 export interface PropertyMetadata {
-  target: Function
-  propertyKey: string
+  target: Object
+  propertyKey: string | symbol
   options: PropertyOptions
 }
