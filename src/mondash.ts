@@ -1,22 +1,15 @@
 import _ from 'lodash'
 import { v4 as uuid } from 'uuid'
 
-import path from 'path'
 import fileSystem from 'fs'
 
 import { MondashOptions } from './interfaces'
-import { EmptyFieldException, WrongFileExtensionException } from './exceptions'
+import { EmptyFieldException } from './exceptions'
 
 export class Mondash {
   private array: object[] = []
 
-  constructor(private options: MondashOptions) {
-    const fileExtension = path.extname(this.options.path)
-
-    if (fileExtension !== '.json') {
-      throw new WrongFileExtensionException()
-    }
-  }
+  constructor(private options: MondashOptions) {}
 
   public syncAndUpdateFiles(): void {
     try {
