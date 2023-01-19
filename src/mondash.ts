@@ -13,7 +13,7 @@ export class Mondash {
 
   public syncAndUpdateFiles(): void {
     try {
-      fileSystem.writeFileSync(this.options.path, JSON.stringify(this.array))
+      fileSystem.writeFileSync(`${this.options.name}.json`, JSON.stringify(this.array, null, 4))
     } catch (error) {
       error
     }
