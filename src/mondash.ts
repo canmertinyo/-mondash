@@ -1,61 +1,63 @@
-import _ from 'lodash'
+import _, { ListIteratee } from 'lodash'
 import { v4 as uuid } from 'uuid'
-
-import fileSystem from 'fs'
+import fse from 'fs-extra'
 
 import { MondashOptions, Type } from './interfaces'
 import { EmptyFieldException } from './exceptions'
 
 export class Mondash<T> {
-  private array: object[] = []
+  private array: T[]
+  private fileName: string
 
-  constructor(public schema: Type<T>, private options: MondashOptions) {}
+  constructor(public schema: Type<T>, private options: MondashOptions) {
+    this.fileName = `${this.options.name}.json`
 
-  public syncAndUpdateFiles(): void {
-    try {
-      fileSystem.writeFileSync(`${this.options.name}.json`, JSON.stringify(this.array, null, 4))
-    } catch (error) {
-      error
+    if (!fse.existsSync(this.fileName)) {
+      fse.writeFileSync(this.fileName, '[]')
     }
+    this.array = fse.readJSONSync(this.fileName)
   }
 
-  public create(object: object): void {
-    object = { id: uuid(), object }
-    this.array.push(object)
+  public syncAndUpdateFiles(): void {
+    fse.writeJSONSync(this.fileName, this.array, { spaces: 4 })
+  }
+
+  public create(item: T): void {
+    item = { id: uuid(), ...item }
+    this.array.push(item)
     this.syncAndUpdateFiles()
   }
 
-  public mixList(): object[] {
+  public mixList(): T[] {
     this.array = _.shuffle(this.array)
     return this.array
   }
 
-  public findAll(find: object): object {
-    return _.filter(this.array, find)
+  public findAll(filter: Partial<T>): T[] {
+    return _.filter(this.array, filter) as T[]
   }
 
-  public findOne(item: object): object | undefined {
-    if (Object.keys(item).length === 0) throw new EmptyFieldException()
-    return _.find(this.array, item)
+  public findOne(filter: Partial<T>): T | undefined {
+    if (Object.keys(filter).length === 0) throw new EmptyFieldException()
+    return _.find(this.array, filter) as T
   }
 
-  public insertOne(item: object): void {
-    this.create(item)
+  public insertOne(item: T): void {
+    this.array.unshift(item)
+    this.syncAndUpdateFiles()
   }
 
-  public insertMany(item: object[]): void {
-    for (const insert of item) {
-      this.create(insert)
-    }
+  public insertMany(items: T[]): void {
+    items.forEach(this.create)
   }
 
-  public writeDataFromDifferentFile(array: object[]): void {
-    for (const item of array) {
-      this.create(item)
-    }
+  public writeDataFromDifferentFile(items: T[]): void {
+    items.forEach(this.create)
   }
 
-  public findOneAndDelete(item: object): unknown {
-    return _.remove(this.array, item)
+  public findOneAndDelete(filter: Partial<T>): T[] {
+    const result = _.remove(this.array, filter as ListIteratee<T>) as T[]
+    this.syncAndUpdateFiles()
+    return result
   }
 }
