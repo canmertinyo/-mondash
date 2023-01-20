@@ -4,6 +4,7 @@ import fse from 'fs-extra'
 
 import { MondashOptions, Type } from './interfaces'
 import { EmptyFieldException } from './exceptions'
+import { ValidatorFactory } from './factories'
 
 export class Mondash<T> {
   private array: T[]
@@ -18,14 +19,17 @@ export class Mondash<T> {
     this.array = fse.readJSONSync(this.fileName)
   }
 
-  private syncAndUpdateFiles(): void {
+  private syncAndUpdateFiles(item?: T): void {
+    if (item) {
+      ValidatorFactory.validateForSchema(this.schema, item)
+    }
     fse.writeJSONSync(this.fileName, this.array, { spaces: 4 })
   }
 
   public create(item: T): void {
     item = { id: uuid(), ...item }
     this.array.push(item)
-    this.syncAndUpdateFiles()
+    this.syncAndUpdateFiles(item)
   }
 
   public mixList(): T[] {
@@ -44,7 +48,7 @@ export class Mondash<T> {
 
   public insertOne(item: T): void {
     this.array.unshift(item)
-    this.syncAndUpdateFiles()
+    this.syncAndUpdateFiles(item)
   }
 
   public insertMany(items: T[]): void {
