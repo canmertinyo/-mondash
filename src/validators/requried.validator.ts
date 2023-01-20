@@ -8,8 +8,8 @@ class RequiredValidatorHost implements PropertyValidator {
     return optionValue && propertyValue
   }
 
-  public catch(optionValue: any, propertyValue: any): void {
-    throw new Error(`Property is requried but got: ${propertyValue}`)
+  public catch(optionValue: any, propertyValue: any, propertyKey: string): void {
+    throw new Error(`"${propertyKey}" field is requried but got: ${propertyValue}`)
   }
 }
 

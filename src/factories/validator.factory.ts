@@ -21,7 +21,7 @@ class ValidatorFactoryHost {
           const isValidated = validator.validate(optionValue, propertyValue)
 
           if (!isValidated) {
-            validator.catch(optionValue, propertyValue)
+            validator.catch(optionValue, propertyValue, metadata.propertyKey as string)
           }
           return isValidated
         })
