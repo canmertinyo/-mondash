@@ -18,7 +18,7 @@ export class Mondash<T> {
     this.array = fse.readJSONSync(this.fileName)
   }
 
-  public syncAndUpdateFiles(): void {
+  private syncAndUpdateFiles(): void {
     fse.writeJSONSync(this.fileName, this.array, { spaces: 4 })
   }
 

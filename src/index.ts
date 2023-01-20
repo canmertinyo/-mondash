@@ -1,2 +1,2 @@
-export * from './decorators'
-export * from './factories'
+export { Prop, Schema } from './decorators'
+export { SchemaFactory } from './factories'
