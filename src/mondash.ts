@@ -55,10 +55,6 @@ export class Mondash<T> {
     items.forEach(this.create)
   }
 
-  public writeDataFromDifferentFile(items: T[]): void {
-    items.forEach(this.create)
-  }
-
   public findOneAndDelete(filter: Partial<T>): T[] {
     const result = _.remove(this.array, filter as ListIteratee<T>) as T[]
     this.syncAndUpdateFiles()
