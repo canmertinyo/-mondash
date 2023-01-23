@@ -3,14 +3,13 @@ import { v4 as uuid } from 'uuid'
 import fse from 'fs-extra'
 
 import { MondashOptions, Type } from './interfaces'
-import { EmptyFieldException } from './exceptions'
 import { ValidatorFactory } from './factories'
 
 export class Mondash<T> {
   private array: T[]
   private fileName: string
 
-  constructor(public schema: Type<T>, private options: MondashOptions) {
+  constructor(private schema: Type<T>, private options: MondashOptions) {
     this.fileName = `${this.options.name}.json`
 
     if (!fse.existsSync(this.fileName)) {
@@ -42,7 +41,6 @@ export class Mondash<T> {
   }
 
   public findOne(filter: Partial<T>): T | undefined {
-    if (Object.keys(filter).length === 0) throw new EmptyFieldException()
     return _.find(this.array, filter) as T
   }
 

@@ -1,1 +1,1 @@
-export * from './empty-field.exception'
+export * from './base.exception'
