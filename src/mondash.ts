@@ -2,11 +2,11 @@ import _, { ListIteratee } from 'lodash'
 import { v4 as uuid } from 'uuid'
 import fse from 'fs-extra'
 
-import { MondashOptions, Type } from './interfaces'
+import { Document, MondashOptions, Type } from './interfaces'
 import { ValidatorFactory } from './factories'
 
 export class Mondash<T> {
-  private array: T[]
+  private array: Document<T>[]
   private fileName: string
 
   constructor(private schema: Type<T>, private options: MondashOptions) {
@@ -25,36 +25,32 @@ export class Mondash<T> {
     fse.writeJSONSync(this.fileName, this.array, { spaces: 4 })
   }
 
-  public create(item: T): void {
-    item = { id: uuid(), ...item }
-    this.array.push(item)
-    this.syncAndUpdateFiles(item)
+  public create(item: T): Document<T> {
+    const createdItem: Document<T> = { id: uuid(), ...item }
+    this.array.push(createdItem)
+    this.syncAndUpdateFiles(createdItem)
+    return createdItem
   }
 
-  public mixList(): T[] {
+  public mixList(): Document<T>[] {
     this.array = _.shuffle(this.array)
     return this.array
   }
 
-  public findAll(filter: Partial<T>): T[] {
-    return _.filter(this.array, filter) as T[]
+  public findAll(filter: Partial<T>): Document<T>[] {
+    return _.filter(this.array, filter) as Document<T>[]
   }
 
-  public findOne(filter: Partial<T>): T | undefined {
-    return _.find(this.array, filter) as T
-  }
-
-  public insertOne(item: T): void {
-    this.array.unshift(item)
-    this.syncAndUpdateFiles(item)
+  public findOne(filter: Partial<T>): Document<T> | undefined {
+    return _.find(this.array, filter) as Document<T>
   }
 
   public insertMany(items: T[]): void {
     items.forEach(this.create)
   }
 
-  public findOneAndDelete(filter: Partial<T>): T[] {
-    const result = _.remove(this.array, filter as ListIteratee<T>) as T[]
+  public findOneAndDelete(filter: Partial<T>): Document<T>[] {
+    const result = _.remove(this.array, filter as ListIteratee<T>) as Document<T>[]
     this.syncAndUpdateFiles()
     return result
   }
