@@ -9,9 +9,10 @@ class TypeValidatorHost implements PropertyValidator {
   }
 
   public catch(optionValue: any, propertyValue: any, propertyKey: string): void {
-    const typeOfOptionValue = typeof Object.prototype.toString.call(new optionValue())
+    const typeOfOptionValue = new optionValue().constructor.name
+    const typeOfPropertyValue = propertyValue.constructor.name
     throw new Error(
-      `Type for "${propertyKey}" is not valid! Expected: ${typeOfOptionValue}, got: ${typeof propertyValue}`
+      `Type for "${propertyKey}" is not valid! Expected: ${typeOfOptionValue}, got: ${typeOfPropertyValue}`
     )
   }
 }
